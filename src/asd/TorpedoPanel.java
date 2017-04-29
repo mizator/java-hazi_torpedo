@@ -18,7 +18,7 @@ import java.awt.event.MouseMotionAdapter;
 
 public class TorpedoPanel extends JPanel {
 	private boolean asd = false;
-	private static final int palyameret = 10;
+	public static final int palyameret = 10;
 	private static final int textToLineOffset = 3;
 	private static final String[] xcoordToStr = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J"};
 	private static final String[] ycoordToStr = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
@@ -27,17 +27,16 @@ public class TorpedoPanel extends JPanel {
 	private int offset;
 	private int meret;
 	
-	private ArrayList<HajoPanel> hajok = new ArrayList<HajoPanel>();
-	
-	
-	private void addHajo(int cellcount, int locx, int locy) {
-		HajoPanel hajo = new HajoPanel();
-		add(hajo);
-		hajok.add(hajo);
-		hajo.setCellCount(cellcount);
-		hajo.setLocation(offset+locx*meret, offset+locy*meret);
+	public int getOffset()
+	{
+		return offset;
 	}
 	
+	public int getMeret()
+	{
+		return meret;
+	}		
+		
 	private void calcOffsetMeret() {
 		offset = Math.max(getFontMetrics(getFont()).getHeight(), getFontMetrics(getFont()).getMaxAdvance()) + textToLineOffset;
 		meret = (Math.min(getSize().width, getSize().height) - offset - 1 ) / palyameret;
@@ -63,22 +62,12 @@ public class TorpedoPanel extends JPanel {
 	                System.out.println(new String("cella: ").concat(xcoordToStr[x]).concat(ycoordToStr[y]));
                 }
             }
-        });		
+        });
 	}
 	
 	public void init() {
 		calcOffsetMeret();
-		
-		addHajo(4, 0, 0); // 1x4/1
-		addHajo(3, 1, 0); // 2x3/1
-		addHajo(3, 1, 3); // 2x3/2
-		addHajo(2, 2, 0); // 3x2/1
-		addHajo(2, 2, 2); // 3x2/2
-		addHajo(2, 2, 4); // 3x2/3
-		addHajo(1, 3, 0); // 4x1/1
-		addHajo(1, 3, 1); // 4x1/2
-		addHajo(1, 3, 2); // 4x1/3
-		addHajo(1, 3, 3); // 4x1/4
+
 		
 	}
 	
@@ -93,10 +82,6 @@ public class TorpedoPanel extends JPanel {
 		}
 		
 		calcOffsetMeret();
-		
-		for (HajoPanel hajoPanel : hajok) {
-			hajoPanel.setOffsetSize(offset, meret);
-		}
 		
 		g.setColor(off_white);
 		g.fillRect(offset, offset, meret*palyameret, meret*palyameret);

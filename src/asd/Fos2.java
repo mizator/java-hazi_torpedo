@@ -1,6 +1,7 @@
 package asd;
 
 import java.awt.EventQueue;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -14,10 +15,13 @@ import javax.swing.BoxLayout;
 import java.awt.BorderLayout;
 import net.miginfocom.swing.MigLayout;
 import java.awt.GridLayout;
+import java.awt.Point;
 
 public class Fos2 {
 
 	private JFrame frame;
+
+	private ArrayList<HajoPanel> hajok = new ArrayList<HajoPanel>();
 
 	/**
 	 * Launch the application.
@@ -40,6 +44,14 @@ public class Fos2 {
 	 */
 	public Fos2() {
 		initialize();
+	}
+	
+	private void addHajo(TorpedoPanel torpedopanel, int cellcount, int locx, int locy, boolean moveable) {
+		HajoPanel hajo = new HajoPanel(torpedopanel, cellcount, moveable);
+		hajo.setLoc(locx*torpedopanel.getMeret()+torpedopanel.getOffset(), locy*torpedopanel.getMeret()+torpedopanel.getOffset());
+		hajok.add(hajo);
+		torpedopanel.add(hajo);
+		hajo.setVisible(true);
 	}
 
 	/**
@@ -74,6 +86,14 @@ public class Fos2 {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				lblNewLabel.setText("Fossss2");
+				for (HajoPanel hajoPanel : hajok) {
+					System.out.println(hajoPanel.getCellPos().toString());
+				}
+				Message msg = new Message();
+				msg.loc = new Point(3, 4);
+				TcpClient net = new TcpClient();
+				net.connect("127.0.0.1");
+				net.send(msg);
 			}
 		});
 		frame.getContentPane().add(btnNewButton);
@@ -81,9 +101,20 @@ public class Fos2 {
 		
 		TorpedoPanel torpedopanel = new TorpedoPanel();
 		torpedopanel.setBounds(66, 96, 432, 429);
+		frame.getContentPane().add(torpedopanel);
 		torpedopanel.init();
 		
-		frame.getContentPane().add(torpedopanel);
+		
+		addHajo(torpedopanel, 4, 0, 0, true); // 1x4/1
+		addHajo(torpedopanel, 3, 1, 0, true); // 2x3/1
+		addHajo(torpedopanel, 3, 1, 3, true); // 2x3/2
+		addHajo(torpedopanel, 2, 2, 0, true); // 3x2/1
+		addHajo(torpedopanel, 2, 2, 2, true); // 3x2/2
+		addHajo(torpedopanel, 2, 2, 4, true); // 3x2/3
+		addHajo(torpedopanel, 1, 3, 0, true); // 4x1/1
+		addHajo(torpedopanel, 1, 3, 1, true); // 4x1/2
+		addHajo(torpedopanel, 1, 3, 2, true); // 4x1/3
+		addHajo(torpedopanel, 1, 3, 3, true); // 4x1/4		
 
 	}
 }
