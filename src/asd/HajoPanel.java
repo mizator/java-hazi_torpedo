@@ -26,6 +26,13 @@ public class HajoPanel extends JPanel {
 	
 	private TorpedoPanel torpedopanel;
 
+	public void setRotated(boolean b)
+	{
+		isRotated = b;
+		calcSize();
+		repaint();
+	}
+	
 	public boolean getRotated()
 	{
 		return isRotated;

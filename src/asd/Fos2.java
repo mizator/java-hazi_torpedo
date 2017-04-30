@@ -8,6 +8,8 @@ import javax.swing.JLabel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.io.Console;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
 import java.awt.FlowLayout;
@@ -46,12 +48,22 @@ public class Fos2 {
 		initialize();
 	}
 	
-	private void addHajo(TorpedoPanel torpedopanel, int cellcount, int locx, int locy, boolean moveable) {
+	private void addHajo(TorpedoPanel torpedopanel, int cellcount, int locx, int locy, boolean rot, boolean moveable) {
 		HajoPanel hajo = new HajoPanel(torpedopanel, cellcount, moveable);
+		hajo.setRotated(rot);
 		hajo.setLoc(locx*torpedopanel.getMeret()+torpedopanel.getOffset(), locy*torpedopanel.getMeret()+torpedopanel.getOffset());
 		hajok.add(hajo);
 		torpedopanel.add(hajo);
 		hajo.setVisible(true);
+	}
+	
+	private void delHajo(TorpedoPanel torpedopanel, ArrayList<HajoPanel> hajok)
+	{
+		for (HajoPanel hajo : hajok)
+		{
+			torpedopanel.remove(hajo);
+		}
+		hajok.clear();
 	}
 
 	/**
@@ -72,12 +84,17 @@ public class Fos2 {
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ConnectTypeDialog fos4 = new ConnectTypeDialog();
-				fos4.setServerAddrHint("fossssssss");
+				try {
+					fos4.setServerAddrHint(InetAddress.getLocalHost().getHostAddress().toString());
+				} catch (UnknownHostException e1) {}
+				
 				boolean asd = fos4.exec();
 
 				System.out.println(new String("ret: ").concat(String.valueOf(asd)));
 				System.out.println(new String("server: ").concat(String.valueOf(fos4.getServerIsSelected())));
 				System.out.println(new String("addr: ").concat(fos4.getConnectAddr()));
+				
+				
 			}
 		});
 		
@@ -104,7 +121,7 @@ public class Fos2 {
 		frame.getContentPane().add(torpedopanel);
 		torpedopanel.init();
 		
-		
+		/*
 		addHajo(torpedopanel, 4, 0, 0, true); // 1x4/1
 		addHajo(torpedopanel, 3, 1, 0, true); // 2x3/1
 		addHajo(torpedopanel, 3, 1, 3, true); // 2x3/2
@@ -115,12 +132,21 @@ public class Fos2 {
 		addHajo(torpedopanel, 1, 3, 1, true); // 4x1/2
 		addHajo(torpedopanel, 1, 3, 2, true); // 4x1/3
 		addHajo(torpedopanel, 1, 3, 3, true); // 4x1/4		
-		
+		*/
 		JButton btnNewButton_2 = new JButton("New button");
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				TeddLeAHajokat a = new TeddLeAHajokat();
-				a.exec();
+				if (a.exec())
+				{
+					delHajo(torpedopanel, hajok);
+					for (HajoPanel h : a.getHajok())
+					{
+						System.out.println(h.getCellPos().toString());
+						addHajo(torpedopanel, h.getCellcount(), h.getCellPos().x, h.getCellPos().y, h.getRotated(), false);
+					}
+					torpedopanel.repaint();
+				}
 			}
 		});
 		btnNewButton_2.setBounds(66, 46, 117, 25);
