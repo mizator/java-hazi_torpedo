@@ -2,6 +2,9 @@ package asd;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -9,13 +12,16 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
+import java.awt.Dialog.ModalExclusionType;
 
 public class TeddLeAHajokat extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
 	private TorpedoPanel torpedopanel;
 	private ArrayList<HajoPanel> hajok = new ArrayList<HajoPanel>();
+	private boolean returnValue = false;
 
 	/**
 	 * Launch the application.
@@ -37,10 +43,43 @@ public class TeddLeAHajokat extends JDialog {
 		torpedopanel.add(hajo);
 		hajo.setVisible(true);
 	}
+	
+	
+	private boolean hajokUtkoznek()
+	{
+		boolean ret = false;
+		
+		for (HajoPanel hajo1 : hajok) 
+		{			
+			for (HajoPanel hajo2 : hajok)
+			{
+				if (hajo1 != hajo2)
+				{
+					Rectangle a = hajo1.getRectangle();
+					a.grow(1, 1);
+					Rectangle b = hajo2.getRectangle();
+					ret |= a.intersects(b);
+				}
+			}
+		}
+		return ret;
+	}
+	
+	public ArrayList<HajoPanel> getHajok()
+	{
+		return hajok;
+	}
+
+	public boolean exec() {
+		setVisible(true);
+		return returnValue;
+	}
+	
 	/**
 	 * Create the dialog.
 	 */
 	public TeddLeAHajokat() {
+		setModal(true);
 		setTitle("Helyezd el a hajóidat!");
 		setBounds(100, 100, 474, 530);
 		getContentPane().setLayout(new BorderLayout());
@@ -55,6 +94,20 @@ public class TeddLeAHajokat extends JDialog {
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
+				okButton.addActionListener(new ActionListener() {
+					@Override public void actionPerformed(ActionEvent arg0) {
+						if (hajokUtkoznek())
+						{
+							JOptionPane.showMessageDialog(null, "A hajók nem érhetnek egymáshoz!", "Hiba", JOptionPane.ERROR_MESSAGE);
+							returnValue = false;
+						}
+						else
+						{
+							returnValue = true;
+							setVisible(false);
+						}
+					}
+				});
 			}
 			{
 				JButton cancelButton = new JButton("Cancel");

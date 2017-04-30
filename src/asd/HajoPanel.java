@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.MouseAdapter;
@@ -25,6 +26,27 @@ public class HajoPanel extends JPanel {
 	
 	private TorpedoPanel torpedopanel;
 
+	public boolean getRotated()
+	{
+		return isRotated;
+	}
+	
+	public int getCellcount()
+	{
+		return cellcount;
+	}
+	
+	public Rectangle getRectangle()
+	{
+		if (isRotated) {
+			return new Rectangle(cellx, celly, cellcount, 1);
+		}
+		else
+		{
+			return new Rectangle(cellx, celly, 1, cellcount);
+		}
+	}
+	
 	public Point getCellPos()
 	{
 		return new Point(cellx, celly);

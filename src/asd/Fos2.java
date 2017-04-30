@@ -115,6 +115,16 @@ public class Fos2 {
 		addHajo(torpedopanel, 1, 3, 1, true); // 4x1/2
 		addHajo(torpedopanel, 1, 3, 2, true); // 4x1/3
 		addHajo(torpedopanel, 1, 3, 3, true); // 4x1/4		
+		
+		JButton btnNewButton_2 = new JButton("New button");
+		btnNewButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				TeddLeAHajokat a = new TeddLeAHajokat();
+				a.exec();
+			}
+		});
+		btnNewButton_2.setBounds(66, 46, 117, 25);
+		frame.getContentPane().add(btnNewButton_2);
 
 	}
 }
