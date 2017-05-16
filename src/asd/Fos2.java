@@ -117,7 +117,7 @@ public class Fos2 {
 		frame.getContentPane().add(btnNewButton_1);
 		
 		TorpedoPanel torpedopanel = new TorpedoPanel();
-		torpedopanel.setBounds(66, 96, 432, 429);
+		torpedopanel.setBounds(223, 46, 432, 429);
 		frame.getContentPane().add(torpedopanel);
 		torpedopanel.init();
 		
