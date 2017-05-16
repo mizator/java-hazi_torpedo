@@ -123,7 +123,7 @@ public class TeddLeAHajokat extends JDialog {
 		}
 		contentPanel.setLayout(new BorderLayout(0, 0));
 		
-		torpedopanel = new TorpedoPanel();
+		torpedopanel = new TorpedoPanel(null);
 		contentPanel.add(torpedopanel);
 		{
 			JLabel lblHelyezdElA = new JLabel("Helyezd el a hajóidat!");

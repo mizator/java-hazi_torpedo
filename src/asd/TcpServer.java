@@ -13,6 +13,13 @@ public class TcpServer extends Network {
 	private ObjectOutputStream out = null;
 	private ObjectInputStream in = null;
 
+	private JatekLogika jateklogika;
+	
+	public TcpServer(JatekLogika jatekLogika)
+	{
+		jateklogika = jatekLogika;
+	}
+	
 /*	SerialServer(Control c) {
 		super(c);
 	}*/
@@ -43,11 +50,7 @@ public class TcpServer extends Network {
 			try {
 				while (true) {
 					Message received = (Message) in.readObject();
-					if (received.tipus == Message.Tipus.Loves)
-					{
-						
-					}
-//					ctrl.clickReceived(received);
+					jateklogika.msgFromNetwork(received);
 				}
 			} catch (Exception ex) {
 				System.out.println(ex.getMessage());
@@ -58,16 +61,12 @@ public class TcpServer extends Network {
 		}
 	}
 
-	void listen() {
+	void listen() throws IOException {
 		disconnect();
-		try {
 			serverSocket = new ServerSocket(10007);
 
 			Thread rec = new Thread(new ReceiverThread());
 			rec.start();
-		} catch (IOException e) {
-			System.err.println("Could not listen on port: 10007.");
-		}
 	}
 
 	@Override

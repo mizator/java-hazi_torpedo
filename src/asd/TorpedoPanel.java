@@ -7,6 +7,7 @@ import javax.swing.BorderFactory;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseAdapter;
@@ -23,7 +24,9 @@ public class TorpedoPanel extends JPanel {
 	private static final String[] xcoordToStr = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J"};
 	private static final String[] ycoordToStr = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
 	private static final Color off_white = new Color(0xF8F8F8);
-	
+
+	private JatekLogika jateklogika;
+
 	private int offset;
 	private int meret;
 	
@@ -45,8 +48,9 @@ public class TorpedoPanel extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public TorpedoPanel() {
+	public TorpedoPanel(JatekLogika jatekLogika) {
 		setLayout(null);
+		jateklogika = jatekLogika;
 		
 		addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
@@ -60,6 +64,11 @@ public class TorpedoPanel extends JPanel {
 	                int x = (e.getX()-offset)/meret;
 	                int y = (e.getY()-offset)/meret;
 	                System.out.println(new String("cella: ").concat(xcoordToStr[x]).concat(ycoordToStr[y]));
+	                
+	                if (jatekLogika != null)
+	                {
+	                	jatekLogika.loves(new Point(x, y));
+	                }
                 }
             }
         });

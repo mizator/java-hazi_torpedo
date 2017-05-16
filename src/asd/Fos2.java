@@ -22,6 +22,8 @@ import java.awt.Point;
 public class Fos2 {
 
 	private JFrame frame;
+	
+	private JatekLogika jateklogika = new JatekLogika();
 
 	private ArrayList<HajoPanel> hajok = new ArrayList<HajoPanel>();
 
@@ -108,15 +110,15 @@ public class Fos2 {
 				}
 				Message msg = new Message();
 				msg.loc = new Point(3, 4);
-				TcpClient net = new TcpClient();
-				net.connect("127.0.0.1");
-				net.send(msg);
+				//TcpClient net = new TcpClient();
+				//net.connect("127.0.0.1");
+				//net.send(msg);
 			}
 		});
 		frame.getContentPane().add(btnNewButton);
 		frame.getContentPane().add(btnNewButton_1);
 		
-		TorpedoPanel torpedopanel = new TorpedoPanel();
+		TorpedoPanel torpedopanel = new TorpedoPanel(jateklogika);
 		torpedopanel.setBounds(223, 46, 432, 429);
 		frame.getContentPane().add(torpedopanel);
 		torpedopanel.init();
@@ -151,6 +153,15 @@ public class Fos2 {
 		});
 		btnNewButton_2.setBounds(66, 46, 117, 25);
 		frame.getContentPane().add(btnNewButton_2);
+		
+		JButton btnNewButton_3 = new JButton("New button");
+		btnNewButton_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				jateklogika.ujJatek();
+			}
+		});
+		btnNewButton_3.setBounds(27, 202, 156, 52);
+		frame.getContentPane().add(btnNewButton_3);
 
 	}
 }

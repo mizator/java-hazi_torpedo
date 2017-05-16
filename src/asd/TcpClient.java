@@ -11,6 +11,14 @@ public class TcpClient extends Network {
 	private ObjectOutputStream out = null;
 	private ObjectInputStream in = null;
 
+	
+	private JatekLogika jateklogika;
+	
+	public TcpClient(JatekLogika jatekLogika)
+	{
+		jateklogika = jatekLogika;
+	}
+	
 /*	SerialClient(Control c) {
 		super(c);
 	}*/
@@ -22,7 +30,7 @@ public class TcpClient extends Network {
 			try {
 				while (true) {
 					Message received = (Message) in.readObject();
-//					ctrl.clickReceived(received);
+					jateklogika.msgFromNetwork(received);
 				}
 			} catch (Exception ex) {
 				System.out.println(ex.getMessage());
@@ -33,9 +41,8 @@ public class TcpClient extends Network {
 		}
 	}
 
-	void connect(String ip) {
+	void connect(String ip) throws UnknownHostException, IOException {
 		disconnect();
-		try {
 			socket = new Socket(ip, 10007);
 
 			out = new ObjectOutputStream(socket.getOutputStream());
@@ -44,12 +51,6 @@ public class TcpClient extends Network {
 
 			Thread rec = new Thread(new ReceiverThread());
 			rec.start();
-		} catch (UnknownHostException e) {
-			System.err.println("Don't know about host");
-		} catch (IOException e) {
-			System.err.println("Couldn't get I/O for the connection. ");
-			JOptionPane.showMessageDialog(null, "Cannot connect to server!");
-		}
 	}
 
 	@Override
