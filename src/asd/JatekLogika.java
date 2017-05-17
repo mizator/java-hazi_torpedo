@@ -22,7 +22,9 @@ public class JatekLogika {
 			connecTypeDialog.setServerAddrHint(InetAddress.getLocalHost().getHostAddress().toString());
 		} catch (UnknownHostException e1) {} // nem baj ha nincs segitseg
 		
-		if (connecTypeDialog.exec())
+		boolean b = connecTypeDialog.exec(); 
+		
+		if (b)
 		{
 			if (connecTypeDialog.getServerIsSelected())
 			{
@@ -35,6 +37,7 @@ public class JatekLogika {
 				}
 			    catch (IOException e)
 				{
+			    	b = false;
 					JOptionPane.showMessageDialog(null, e.getMessage(), "Kapcsolodas sikertelen", JOptionPane.ERROR_MESSAGE);
 				}
 			}
@@ -49,7 +52,23 @@ public class JatekLogika {
 				}
 			    catch (IOException e)
 				{
+			    	b = false;
 					JOptionPane.showMessageDialog(null, e.getMessage(), "Kapcsolodas sikertelen", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+			
+			if (b)
+			{
+				TeddLeAHajokat teddleahajokat = new TeddLeAHajokat();
+				if (teddleahajokat.exec())
+				{
+					/*delHajo(torpedopanel, hajok);
+					for (HajoPanel h : a.getHajok())
+					{
+						System.out.println(h.getCellPos().toString());
+						addHajo(torpedopanel, h.getCellcount(), h.getCellPos().x, h.getCellPos().y, h.getRotated(), false);
+					}
+					torpedopanel.repaint();*/
 				}
 			}
 		}
