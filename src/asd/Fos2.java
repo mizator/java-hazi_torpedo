@@ -73,7 +73,7 @@ public class Fos2 {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 678, 626);
+		frame.setBounds(100, 100, 1371, 608);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
@@ -118,10 +118,10 @@ public class Fos2 {
 		frame.getContentPane().add(btnNewButton);
 		frame.getContentPane().add(btnNewButton_1);
 		
-		TorpedoPanel2 torpedopanel = new TorpedoPanel2(jateklogika);
-		torpedopanel.setBounds(223, 46, 432, 429);
-		frame.getContentPane().add(torpedopanel);
-		torpedopanel.init();
+		TorpedoPanel2 sajatTabla = new TorpedoPanel2(jateklogika);
+		sajatTabla.setBounds(223, 46, 432, 429);
+		frame.getContentPane().add(sajatTabla);
+		sajatTabla.init();
 		
 		
 		/*
@@ -149,7 +149,7 @@ public class Fos2 {
 						System.out.println(h.getCellPos().toString());
 						addHajo(torpedopanel, h.getCellcount(), h.getCellPos().x, h.getCellPos().y, h.getRotated(), false);
 					}*/
-					torpedopanel.repaint();
+					sajatTabla.repaint();
 				}
 			}
 		});
@@ -164,6 +164,11 @@ public class Fos2 {
 		});
 		btnNewButton_3.setBounds(27, 202, 156, 52);
 		frame.getContentPane().add(btnNewButton_3);
+		
+		TorpedoPanel2 ellenfelTabla = new TorpedoPanel2((JatekLogika) null);
+		ellenfelTabla.setBounds(687, 46, 432, 429);
+		frame.getContentPane().add(ellenfelTabla);
 
+		jateklogika.setTablak(sajatTabla, ellenfelTabla);
 	}
 }

@@ -32,6 +32,21 @@ public class TorpedoPanel2 extends JPanel {
 	
 	public enum CellaTipus {Ures, Loves, NemTalalt, Talat, TalaltSullyedt};
 	private CellaTipus[][] cellak = new CellaTipus[palyameret][palyameret];
+
+	private ArrayList<Hajo> hajok = new ArrayList<Hajo>();
+	
+	public void clearHajok()
+	{
+		hajok.clear();
+		repaint();
+	}
+	
+	public void addHajo(Hajo hajo)
+	{
+		hajok.add(hajo);
+		repaint();
+	}
+
 	
 	public void clearCellak()
 	{
@@ -128,7 +143,7 @@ public class TorpedoPanel2 extends JPanel {
 		g.drawLine(offset, offset + palyameret*meret, offset + palyameret*meret, offset + palyameret*meret);
 		
 		
-		for(Hajo hajo: jateklogika.getHajok())
+		for(Hajo hajo: hajok)
 		{
 			g.setColor(Color.red);
 			int x = offset + hajo.pos.x * meret;

@@ -15,17 +15,12 @@ public class JatekLogika {
 	private Network network;
 	private boolean enJovok;
 	
-	private ArrayList<Hajo> hajok = new ArrayList<Hajo>();
+	private TorpedoPanel2 sajatTabla;
+	private TorpedoPanel2 ellenfelTabla;
 	
-	public ArrayList<Hajo> getHajok()
-	{
-		return hajok;
-	}
-	
+
 	public void ujJatek()
-	{
-		hajok.add(new Hajo(new Point(3, 3), 4, false));
-		
+	{	
 		ConnectTypeDialog connecTypeDialog = new ConnectTypeDialog();
 		try
 		{
@@ -72,20 +67,29 @@ public class JatekLogika {
 				TeddLeAHajokat teddleahajokat = new TeddLeAHajokat();
 				if (teddleahajokat.exec())
 				{
-					/*delHajo(torpedopanel, hajok);
-					for (HajoPanel h : a.getHajok())
+					sajatTabla.clearHajok();
+					sajatTabla.clearCellak();
+					ellenfelTabla.clearCellak();
+					ellenfelTabla.clearHajok();
+					
+					for (HajoPanel h : teddleahajokat.getHajok())
 					{
-						System.out.println(h.getCellPos().toString());
-						addHajo(torpedopanel, h.getCellcount(), h.getCellPos().x, h.getCellPos().y, h.getRotated(), false);
+						sajatTabla.addHajo(new Hajo(h.getCellPos(), h.getCellcount(), h.getRotated()));
 					}
-					torpedopanel.repaint();*/
 				}
 				else
 				{
 					network.disconnect();
+					b = false;
 				}
 			}
 		}
+	}
+	
+	public void setTablak(TorpedoPanel2 sajat, TorpedoPanel2 ellenfel)
+	{
+		sajatTabla = sajat;
+		ellenfelTabla = ellenfel;
 	}
 	
 	public void msgFromNetwork(Message msg)
