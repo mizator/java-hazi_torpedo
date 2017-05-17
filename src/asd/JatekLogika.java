@@ -9,10 +9,11 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 import asd.Message.Tipus;
+import asd.TorpedoPanel2.CellaTipus;
 
 public class JatekLogika {
 	
-	private Network network;
+	private Network network = null;
 	private boolean enJovok;
 	
 	private TorpedoPanel2 sajatTabla;
@@ -96,7 +97,38 @@ public class JatekLogika {
 	{
 		if (!enJovok)
 		{
-			
+			if (msg.tipus == Tipus.Loves)
+			{
+				enJovok = ! enJovok;
+				
+				boolean talalt = false;
+				for(Hajo hajo: sajatTabla.getHajok())
+				{
+					if (hajo.getRectangle().contains(msg.loc))
+					{
+						talalt = true;
+						hajo.meglottek();
+						
+						if (hajo.getSullyedt())
+						{
+							//todo valasz sullyedt
+						}
+						else
+						{
+						}
+					}
+				}
+				
+				if (talalt)
+				{
+					sajatTabla.setCella(msg.loc.x, msg.loc.y, CellaTipus.Talat);
+				}
+				else
+				{
+					sajatTabla.setCella(msg.loc.x, msg.loc.y, CellaTipus.NemTalalt);
+				}
+
+			}
 		}
 		else
 		{
@@ -106,10 +138,22 @@ public class JatekLogika {
 	
 	public void loves(Point loc)
 	{
-		Message msg = new Message();
-		msg.tipus = Tipus.Loves;
-		msg.loc = loc;
-		network.send(msg);
+		if (network != null)
+		{
+			if (enJovok)
+			{
+				enJovok = ! enJovok;
+				ellenfelTabla.setCella(loc.x, loc.y, CellaTipus.Loves);
+				Message msg = new Message();
+				msg.tipus = Tipus.Loves;
+				msg.loc = loc;
+				network.send(msg);
+			}
+			else
+			{
+				System.out.println("valaki csalni akar 2...");
+			}
+		}
 	}
 	
 

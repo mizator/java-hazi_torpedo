@@ -110,6 +110,7 @@ public class ConnectTypeDialog extends JDialog {
 		}
 		{
 			connectAddr = new JTextField();
+			connectAddr.setText("127.0.0.1");
 			connectAddr.setEnabled(false);
 			GridBagConstraints gbc_connectAddr = new GridBagConstraints();
 			gbc_connectAddr.fill = GridBagConstraints.HORIZONTAL;

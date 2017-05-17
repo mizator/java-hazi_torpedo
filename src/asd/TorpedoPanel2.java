@@ -35,6 +35,11 @@ public class TorpedoPanel2 extends JPanel {
 
 	private ArrayList<Hajo> hajok = new ArrayList<Hajo>();
 	
+	public ArrayList<Hajo> getHajok()
+	{
+		return hajok;
+	}
+
 	public void clearHajok()
 	{
 		hajok.clear();
@@ -58,6 +63,7 @@ public class TorpedoPanel2 extends JPanel {
 	public void setCella(int x, int y, CellaTipus tipus)
 	{
 		cellak[x][y] = tipus;
+		repaint();
 	}
 	
 	public int getOffset()
@@ -94,12 +100,10 @@ public class TorpedoPanel2 extends JPanel {
 	                int x = (e.getX()-offset)/meret;
 	                int y = (e.getY()-offset)/meret;
 	                System.out.println(new String("cella: ").concat(xcoordToStr[x]).concat(ycoordToStr[y]));
-	                
-	                cellak[x][y] = CellaTipus.Talat;
-	                
+	                                
 	                if (jatekLogika != null)
 	                {
-	                	//jatekLogika.loves(new Point(x, y));
+	                	jatekLogika.loves(new Point(x, y));
 	                }
                 }
             }
