@@ -82,8 +82,6 @@ public class TcpServer extends Network {
 		}
 	}
 
-	void disconnect() {}
-/*
 	@Override
 	void disconnect() {
 		try {
@@ -96,8 +94,7 @@ public class TcpServer extends Network {
 			if (serverSocket != null)
 				serverSocket.close();
 		} catch (IOException ex) {
-			Logger.getLogger(SerialServer.class.getName()).log(Level.SEVERE,
-					null, ex);
+			System.err.println("Error while closing conn.");
 		}
-	}*/
+	}
 }

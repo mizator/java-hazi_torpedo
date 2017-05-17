@@ -118,10 +118,11 @@ public class Fos2 {
 		frame.getContentPane().add(btnNewButton);
 		frame.getContentPane().add(btnNewButton_1);
 		
-		TorpedoPanel torpedopanel = new TorpedoPanel(jateklogika);
+		TorpedoPanel2 torpedopanel = new TorpedoPanel2(jateklogika);
 		torpedopanel.setBounds(223, 46, 432, 429);
 		frame.getContentPane().add(torpedopanel);
 		torpedopanel.init();
+		
 		
 		/*
 		addHajo(torpedopanel, 4, 0, 0, true); // 1x4/1
@@ -141,12 +142,13 @@ public class Fos2 {
 				TeddLeAHajokat a = new TeddLeAHajokat();
 				if (a.exec())
 				{
+					/*
 					delHajo(torpedopanel, hajok);
 					for (HajoPanel h : a.getHajok())
 					{
 						System.out.println(h.getCellPos().toString());
 						addHajo(torpedopanel, h.getCellcount(), h.getCellPos().x, h.getCellPos().y, h.getRotated(), false);
-					}
+					}*/
 					torpedopanel.repaint();
 				}
 			}

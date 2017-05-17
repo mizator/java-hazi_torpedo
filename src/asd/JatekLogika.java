@@ -4,6 +4,7 @@ import java.awt.Point;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
@@ -14,8 +15,17 @@ public class JatekLogika {
 	private Network network;
 	private boolean enJovok;
 	
+	private ArrayList<Hajo> hajok = new ArrayList<Hajo>();
+	
+	public ArrayList<Hajo> getHajok()
+	{
+		return hajok;
+	}
+	
 	public void ujJatek()
 	{
+		hajok.add(new Hajo(new Point(3, 3), 4, false));
+		
 		ConnectTypeDialog connecTypeDialog = new ConnectTypeDialog();
 		try
 		{
@@ -69,6 +79,10 @@ public class JatekLogika {
 						addHajo(torpedopanel, h.getCellcount(), h.getCellPos().x, h.getCellPos().y, h.getRotated(), false);
 					}
 					torpedopanel.repaint();*/
+				}
+				else
+				{
+					network.disconnect();
 				}
 			}
 		}

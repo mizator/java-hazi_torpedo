@@ -66,9 +66,7 @@ public class TcpClient extends Network {
 		}
 	}
 
-	void disconnect() {}
-	
-/*	@Override
+	@Override
 	void disconnect() {
 		try {
 			if (out != null)
@@ -80,5 +78,5 @@ public class TcpClient extends Network {
 		} catch (IOException ex) {
 			System.err.println("Error while closing conn.");
 		}
-	}*/
+	}
 }
