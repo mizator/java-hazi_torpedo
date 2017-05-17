@@ -108,17 +108,12 @@ public class Fos2 {
 				for (HajoPanel hajoPanel : hajok) {
 					System.out.println(hajoPanel.getCellPos().toString());
 				}
-				Message msg = new Message();
-				msg.loc = new Point(3, 4);
-				//TcpClient net = new TcpClient();
-				//net.connect("127.0.0.1");
-				//net.send(msg);
 			}
 		});
 		frame.getContentPane().add(btnNewButton);
 		frame.getContentPane().add(btnNewButton_1);
 		
-		TorpedoPanel2 sajatTabla = new TorpedoPanel2(jateklogika);
+		TorpedoPanel2 sajatTabla = new TorpedoPanel2(null);
 		sajatTabla.setBounds(223, 46, 432, 429);
 		frame.getContentPane().add(sajatTabla);
 		sajatTabla.init();
@@ -165,7 +160,7 @@ public class Fos2 {
 		btnNewButton_3.setBounds(27, 202, 156, 52);
 		frame.getContentPane().add(btnNewButton_3);
 		
-		TorpedoPanel2 ellenfelTabla = new TorpedoPanel2((JatekLogika) null);
+		TorpedoPanel2 ellenfelTabla = new TorpedoPanel2(jateklogika);
 		ellenfelTabla.setBounds(687, 46, 432, 429);
 		frame.getContentPane().add(ellenfelTabla);
 

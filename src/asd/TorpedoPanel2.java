@@ -24,6 +24,7 @@ public class TorpedoPanel2 extends JPanel {
 	private static final String[] xcoordToStr = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J"};
 	private static final String[] ycoordToStr = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
 	private static final Color off_white = new Color(0xF8F8F8);
+	private static final Color off_white2 = new Color(0xE8E8E8);
 
 	private JatekLogika jateklogika;
 
@@ -123,10 +124,17 @@ public class TorpedoPanel2 extends JPanel {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);       
 
-		
 		calcOffsetMeret();
 		
-		g.setColor(off_white);
+		if (isEnabled())
+		{
+			g.setColor(off_white);
+		}
+		else
+		{
+			g.setColor(off_white2);
+		}
+		
 		g.fillRect(offset, offset, meret*palyameret, meret*palyameret);
 
 		g.setColor(Color.black);

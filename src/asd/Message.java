@@ -7,4 +7,10 @@ public class Message implements Serializable {
 	public enum Tipus {Loves, NemTalalt, Talat, TalaltSullyedt};
 	Tipus tipus;
 	public Point loc;
+	
+	public Message(Tipus t, Point l)
+	{
+		tipus = t;
+		loc = l;
+	}
 }

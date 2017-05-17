@@ -19,6 +19,11 @@ public class JatekLogika {
 	private TorpedoPanel2 sajatTabla;
 	private TorpedoPanel2 ellenfelTabla;
 	
+	private void toggleEnJovok()
+	{
+		enJovok = ! enJovok;
+		ellenfelTabla.setEnabled(enJovok);
+	}
 
 	public void ujJatek()
 	{	
@@ -68,6 +73,9 @@ public class JatekLogika {
 				TeddLeAHajokat teddleahajokat = new TeddLeAHajokat();
 				if (teddleahajokat.exec())
 				{
+					sajatTabla.setEnabled(false);
+					ellenfelTabla.setEnabled(enJovok);
+
 					sajatTabla.clearHajok();
 					sajatTabla.clearCellak();
 					ellenfelTabla.clearCellak();
@@ -99,7 +107,7 @@ public class JatekLogika {
 		{
 			if (msg.tipus == Tipus.Loves)
 			{
-				enJovok = ! enJovok;
+				toggleEnJovok();
 				
 				boolean talalt = false;
 				for(Hajo hajo: sajatTabla.getHajok())
@@ -122,12 +130,21 @@ public class JatekLogika {
 				if (talalt)
 				{
 					sajatTabla.setCella(msg.loc.x, msg.loc.y, CellaTipus.Talat);
+					network.send(new Message(Tipus.Talat, msg.loc));
 				}
 				else
 				{
 					sajatTabla.setCella(msg.loc.x, msg.loc.y, CellaTipus.NemTalalt);
+					network.send(new Message(Tipus.NemTalalt, msg.loc));
 				}
-
+			}
+			else if (msg.tipus == Tipus.Talat)
+			{
+				ellenfelTabla.setCella(msg.loc.x, msg.loc.y, CellaTipus.Talat);				
+			}
+			else if (msg.tipus == Tipus.NemTalalt)
+			{
+				ellenfelTabla.setCella(msg.loc.x, msg.loc.y, CellaTipus.NemTalalt);				
 			}
 		}
 		else
@@ -142,12 +159,9 @@ public class JatekLogika {
 		{
 			if (enJovok)
 			{
-				enJovok = ! enJovok;
+				toggleEnJovok();
 				ellenfelTabla.setCella(loc.x, loc.y, CellaTipus.Loves);
-				Message msg = new Message();
-				msg.tipus = Tipus.Loves;
-				msg.loc = loc;
-				network.send(msg);
+				network.send(new Message(Tipus.Loves, loc));
 			}
 			else
 			{
