@@ -11,20 +11,46 @@ import javax.swing.JOptionPane;
 import asd.Message.Tipus;
 import asd.TorpedoPanel2.CellaTipus;
 
+/**
+ * A jatek logikajat megvalosito, a jatek szabalyait ellenorzo osztaly.
+ *
+ */
 public class JatekLogika {
 	
+	/**
+	 * A halozati kapcsolatot kezelo inteface.
+	 * @see TcpClient
+	 * @see TcpServer
+	 */
 	private Network network = null;
+	
+	/**
+	 * Az itteni jatekose-e a kovetkezo lepes. A szerver kezd.
+	 */
 	private boolean enJovok;
 	
+	/**
+	 * Az itteni jatekos hajoit abrazolo jatekter.
+	 */
 	private TorpedoPanel2 sajatTabla;
+	/**
+	 * Az ellenfel ellen iranyulo loveskeet / talalatokat abrazolo jatekter.
+	 */
 	private TorpedoPanel2 ellenfelTabla;
 	
+	/**
+	 * Megvaltoztatja, hogy kie a kovetkezo lepes.
+	 */
 	private void toggleEnJovok()
 	{
 		enJovok = ! enJovok;
 		ellenfelTabla.setEnabled(enJovok);
 	}
 
+	/**
+	 * Ujrainicializalja a jatekot, uj halozati kapcsolatot hoz letre,
+	 * elhelyezteti a jatekossal a hajoit.
+	 */
 	public void ujJatek()
 	{	
 		ConnectTypeDialog connecTypeDialog = new ConnectTypeDialog();
@@ -95,12 +121,21 @@ public class JatekLogika {
 		}
 	}
 	
+	/**
+	 * Beallitja a grafikus feluleten megjeleno jatektereket.
+	 * @param sajat Az itteni jatekos hajoit abrazolo jatekter.
+	 * @param ellenfel Az ellenfel ellen iranyulo loveskeet / talalatokat abrazolo jatekter.
+	 */
 	public void setTablak(TorpedoPanel2 sajat, TorpedoPanel2 ellenfel)
 	{
 		sajatTabla = sajat;
 		ellenfelTabla = ellenfel;
 	}
 	
+	/**
+	 * A halozat felol erkezo uzeneteket kezelo fuggveny.
+	 * @param msg az erkezo uzenet
+	 */
 	public void msgFromNetwork(Message msg)
 	{
 		if (!enJovok)
@@ -150,6 +185,10 @@ public class JatekLogika {
 		}
 	}
 	
+	/**
+	 * Az itteni jatekostol erkezo loveseket kezelo fuggveny.
+	 * @param loc A loves pozicioja.
+	 */
 	public void loves(Point loc)
 	{
 		if (network != null)
