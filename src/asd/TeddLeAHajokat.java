@@ -62,7 +62,7 @@ public class TeddLeAHajokat extends JDialog {
 				}
 			}
 		}
-		return false;//ret;
+		return ret;
 	}
 	
 	public ArrayList<HajoPanel> getHajok()
