@@ -121,9 +121,6 @@ public class JatekLogika {
 						{
 							//todo valasz sullyedt
 						}
-						else
-						{
-						}
 					}
 				}
 				
