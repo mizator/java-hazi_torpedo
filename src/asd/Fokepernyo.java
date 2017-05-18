@@ -90,12 +90,10 @@ public class Fokepernyo {
 		frmTorped.setBounds(100, 100, 1041, 571);
 		frmTorped.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 								frmTorped.getContentPane().setLayout(new MigLayout("", "[200px,grow,fill][200px,grow,fill]", "[35px][200px,grow,fill]"));
-								
-								JPanel panel_1 = new JPanel();
-								frmTorped.getContentPane().add(panel_1, "cell 0 0,growx,aligny top");
+								frmTorped.getContentPane().setLayout(new MigLayout("", "[250px,grow,fill][250px,grow,fill]", "[][200px,grow,fill]"));
 								
 								JButton ujJatek = new JButton("Új játék");
-								panel_1.add(ujJatek);
+								frmTorped.getContentPane().add(ujJatek, "cell 0 0");
 								ujJatek.addActionListener(new ActionListener() {
 									public void actionPerformed(ActionEvent arg0) {
 										jateklogika.ujJatek();
@@ -103,11 +101,11 @@ public class Fokepernyo {
 								});
 								
 								TorpedoPanel2 sajatTabla = new TorpedoPanel2(null);
-								frmTorped.getContentPane().add(sajatTabla, "cell 0 1,grow");
+								frmTorped.getContentPane().add(sajatTabla, "cell 0 1,alignx left,aligny top");
 								sajatTabla.init();
 								
 								TorpedoPanel2 ellenfelTabla = new TorpedoPanel2(jateklogika);
-								frmTorped.getContentPane().add(ellenfelTabla, "cell 1 1,grow");
+								frmTorped.getContentPane().add(ellenfelTabla, "cell 1 1,alignx left,aligny top");
 
 								jateklogika.setTablak(sajatTabla, ellenfelTabla);
 								sajatTabla.setLayout(null);
