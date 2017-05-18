@@ -21,6 +21,11 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
 import javax.swing.JLabel;
 
+
+/**
+ * A kapcsolat tipusanak (server/client) kivalasztasara szolgalo ablak/dialog.
+ *
+ */
 public class ConnectTypeDialog extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
@@ -33,6 +38,7 @@ public class ConnectTypeDialog extends JDialog {
 
 	/**
 	 * Launch the application.
+	 * Tesztelesi celokra.
 	 */
 	public static void main(String[] args) {
 		try {
@@ -145,19 +151,35 @@ public class ConnectTypeDialog extends JDialog {
 		}
 	}
 	
+	/**
+	 * A dialog elinditasa / megjelenitese.
+	 * @return A felhasznalo az OK-gombbal zarta be a dialog-ot.
+	 */
 	public boolean exec() {
 		setVisible(true);
 		return returnValue;
 	}
 
+	/**
+	 * Visszater a kapcsolat tipusaval.
+	 * @return A server tipus van kivalasztva.
+	 */
 	public boolean getServerIsSelected() {
 		return rdbtnSzerver.isSelected();
 	}
 
+	/**
+	 * Visszaadja a beirt cel cimet (csak kliens eseten).
+	 * @return A cel cim.
+	 */
 	public String getConnectAddr() {
 		return connectAddr.getText();
 	}
 
+	/**
+	 * Beallitja a segitsegkent megjelenitett szerver IP cimet. 
+	 * @param s A szerver IP cime.
+	 */
 	public void setServerAddrHint(String s) {
 		serverAddr.setText(s);
 	}
