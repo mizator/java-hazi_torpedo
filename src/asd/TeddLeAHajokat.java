@@ -16,15 +16,31 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import java.awt.Dialog.ModalExclusionType;
 
+/**
+ * A hajok jatek elotti elhelyezeset vegzo ablak/dialog. 
+ */
 public class TeddLeAHajokat extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
+	
+	/**
+	 * Jatekter, ezen lehet a hajokat helyezgetni.
+	 */
 	private TorpedoPanel torpedopanel;
+	
+	/**
+	 * A hajokat megjelenito objektumokat tartalmazo lista.
+	 */
 	private ArrayList<HajoPanel> hajok = new ArrayList<HajoPanel>();
+	
+	/**
+	 * OK-ra kattintottak.
+	 */
 	private boolean returnValue = false;
 
 	/**
 	 * Launch the application.
+	 * Tesztelesi celokra.
 	 */
 	public static void main(String[] args) {
 		try {
@@ -36,6 +52,14 @@ public class TeddLeAHajokat extends JDialog {
 		}
 	}
 
+	/**
+	 * Hajo megjelenitese.
+	 * @param torpedopanel Ezen a jatekteren.
+	 * @param cellcount Ezzel a merettel
+	 * @param locx Ezen az X pozicion.
+	 * @param locy Ezen az Y pozicion.
+	 * @param moveable A hajo mozgathato?
+	 */
 	private void addHajo(TorpedoPanel torpedopanel, int cellcount, int locx, int locy, boolean moveable) {
 		HajoPanel hajo = new HajoPanel(torpedopanel, cellcount, moveable);
 		hajo.setLoc(locx*torpedopanel.getMeret()+torpedopanel.getOffset(), locy*torpedopanel.getMeret()+torpedopanel.getOffset());
@@ -44,7 +68,10 @@ public class TeddLeAHajokat extends JDialog {
 		hajo.setVisible(true);
 	}
 	
-	
+	/**
+	 * Ellenorzi, a hajok elhelyezkedeset. 
+	 * @return Van olyan ket hajo, amik kozt nincs legalabb 1 cellanyi tavolsag.
+	 */
 	private boolean hajokUtkoznek()
 	{
 		boolean ret = false;
@@ -65,11 +92,19 @@ public class TeddLeAHajokat extends JDialog {
 		return ret;
 	}
 	
+	/**
+	 * Megjelenitett hajokat adja vissza.
+	 * @return A megjelenitett hajok listaja.
+	 */
 	public ArrayList<HajoPanel> getHajok()
 	{
 		return hajok;
 	}
 
+	/**
+	 * A dialog elinditasa, az ablak megjelenitese.
+	 * @return A felhasznalo az OK gombra kattintott es nincs utkozo hajo.
+	 */
 	public boolean exec() {
 		setVisible(true);
 		return returnValue;
