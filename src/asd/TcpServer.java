@@ -6,24 +6,49 @@ import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+/**
+ * TCP szerver halozati kapcsolatot megvalosito osztaly. 
+ */
 public class TcpServer extends Network {
 
+	/**
+	 * Halozati kapcsolathoz szerver socket.
+	 */
 	private ServerSocket serverSocket = null;
+	
+	/**
+	 * A hozzank kapcsolodott klienshez socket.
+	 */
 	private Socket clientSocket = null;
+	
+	/**
+	 * Kiemneti stream.
+	 */	
 	private ObjectOutputStream out = null;
+	
+	/**
+	 * Bemeneti stream.
+	 */	
 	private ObjectInputStream in = null;
 
+	/**
+	 * A jatekLogika objektum, aminek az erkezo uzeneteket at kell adni.
+	 */
 	private JatekLogika jateklogika;
 	
+	/**
+	 * TCP szerver letrehozasa
+	 * @param jatekLogika aminek az erkezo uzeneteket at kell adni.
+	 */
 	public TcpServer(JatekLogika jatekLogika)
 	{
 		jateklogika = jatekLogika;
 	}
 	
-/*	SerialServer(Control c) {
-		super(c);
-	}*/
-
+	/**
+	 * Fogado szal, blokkolodik, ameddig nem jon uzenet.
+	 * Ha jon uzenet, ertesite a jateklogikat. 
+	 */
 	private class ReceiverThread implements Runnable {
 
 		public void run() {
@@ -61,6 +86,10 @@ public class TcpServer extends Network {
 		}
 	}
 
+	/**
+	 * Szerver kapcsolat eliditasa. Figyeles egy adott porton.
+	 * @throws IOException
+	 */
 	void listen() throws IOException {
 		disconnect();
 			serverSocket = new ServerSocket(10007);
@@ -69,6 +98,9 @@ public class TcpServer extends Network {
 			rec.start();
 	}
 
+	/**
+	 * Uzenet kuldese a tavoli felnek.
+	 */
 	@Override
 	void send(Message p) {
 		if (out == null)
@@ -82,6 +114,9 @@ public class TcpServer extends Network {
 		}
 	}
 
+	/**
+	 * Kapcsolat bontasa.
+	 */
 	@Override
 	void disconnect() {
 		try {

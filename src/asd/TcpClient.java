@@ -5,24 +5,44 @@ import java.io.*;
 import java.net.*;
 import javax.swing.JOptionPane;
 
+/**
+ * TCP kliens halozati kapcsolatot megvalosito osztaly. 
+ */
 public class TcpClient extends Network {
-
+	
+	/**
+	 * Halozati kapcsolathoz socket.
+	 */
 	private Socket socket = null;
+	
+	/**
+	 * Kiemneti stream.
+	 */
 	private ObjectOutputStream out = null;
+	
+	/**
+	 * Bemeneti stream.
+	 */
 	private ObjectInputStream in = null;
 
-	
+	/**
+	 * A jatekLogika objektum, aminek az erkezo uzeneteket at kell adni.
+	 */
 	private JatekLogika jateklogika;
 	
+	/**
+	 * TCP kliens letrehozasa
+	 * @param jatekLogika aminek az erkezo uzeneteket at kell adni.
+	 */
 	public TcpClient(JatekLogika jatekLogika)
 	{
 		jateklogika = jatekLogika;
 	}
 	
-/*	SerialClient(Control c) {
-		super(c);
-	}*/
-
+	/**
+	 * Fogado szal, blokkolodik, ameddig nem jon uzenet.
+	 * Ha jon uzenet, ertesite a jateklogikat. 
+	 */
 	private class ReceiverThread implements Runnable {
 
 		public void run() {
@@ -41,6 +61,12 @@ public class TcpClient extends Network {
 		}
 	}
 
+	/**
+	 * Kapcsolodas egy szerverhez.
+	 * @param ip Ehhez probalunk kapcsolodni.
+	 * @throws UnknownHostException
+	 * @throws IOException
+	 */
 	void connect(String ip) throws UnknownHostException, IOException {
 		disconnect();
 			socket = new Socket(ip, 10007);
@@ -53,6 +79,9 @@ public class TcpClient extends Network {
 			rec.start();
 	}
 
+	/**
+	 * Uzenet kuldese a tavoli felnek.
+	 */
 	@Override
 	void send(Message p) {
 		if (out == null)
@@ -66,6 +95,9 @@ public class TcpClient extends Network {
 		}
 	}
 
+	/**
+	 * Kapcsolat bontasa.
+	 */
 	@Override
 	void disconnect() {
 		try {
