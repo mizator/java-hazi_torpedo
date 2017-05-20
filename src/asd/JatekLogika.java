@@ -53,6 +53,7 @@ public class JatekLogika {
 	 */
 	public void ujJatek()
 	{	
+		// user megkerdezese szerver vagy kliens akar lenni
 		ConnectTypeDialog connecTypeDialog = new ConnectTypeDialog();
 		try
 		{
@@ -61,12 +62,13 @@ public class JatekLogika {
 		
 		boolean b = connecTypeDialog.exec(); 
 		
-		if (b)
+		if (b) //ha OK-ra nyomott
 		{
 			if (connecTypeDialog.getServerIsSelected())
 			{
 				try
 				{
+					// ha szervert valasztott megprobalunk egy TCP szerver-t inditani, beallitani, hogy mi jovunk
 					TcpServer server = new TcpServer(this);
 					server.listen();
 					network = server;
@@ -74,6 +76,7 @@ public class JatekLogika {
 				}
 			    catch (IOException e)
 				{
+					// ha nem sikerult, akkor felugro ablakkal jelezzuk az usernek
 			    	b = false;
 					JOptionPane.showMessageDialog(null, e.getMessage(), "Kapcsolodas sikertelen", JOptionPane.ERROR_MESSAGE);
 				}
@@ -82,6 +85,7 @@ public class JatekLogika {
 			{
 				try
 				{
+					// ha klienst valasztott megprobalunk egy TCP klienst-t inditani es csatlakozni a szerverhez, beallitani, hogy mi jovunk
 					TcpClient client = new TcpClient(this);
 					client.connect(connecTypeDialog.getConnectAddr());
 					network = client;
@@ -89,24 +93,30 @@ public class JatekLogika {
 				}
 			    catch (IOException e)
 				{
+					// ha nem sikerult, akkor felugro ablakkal jelezzuk az usernek
 			    	b = false;
 					JOptionPane.showMessageDialog(null, e.getMessage(), "Kapcsolodas sikertelen", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 			
+			// ha sikerult a halozati kapcsolat
 			if (b)
 			{
+				// feldobjuk a hejokat elhejezo ablakot
 				TeddLeAHajokat teddleahajokat = new TeddLeAHajokat();
 				if (teddleahajokat.exec())
 				{
-					sajatTabla.setEnabled(false);
-					ellenfelTabla.setEnabled(enJovok);
+					// ha OK-ot nyomott
+					sajatTabla.setEnabled(false); // sajat tablat ne piszkalja
+					ellenfelTabla.setEnabled(enJovok); // ellenfel tablajat engedelyezzunk ha mi jovunk
 
+					// tablan (elozo jatekbol) levo hajokat es cellak tartalmat toroljuk
 					sajatTabla.clearHajok();
 					sajatTabla.clearCellak();
 					ellenfelTabla.clearCellak();
 					ellenfelTabla.clearHajok();
 					
+					// a felugro ablakon elhelyezett hajoknak megfelelo hajokat hozzaadjuk a sajat jatekterhez
 					for (HajoPanel h : teddleahajokat.getHajok())
 					{
 						sajatTabla.addHajo(new Hajo(h.getCellPos(), h.getCellcount(), h.getRotated()));
@@ -114,6 +124,7 @@ public class JatekLogika {
 				}
 				else
 				{
+					// ha nem OK-ot nyomott, lezarjuk a halozati kapcsolatot
 					network.disconnect();
 					b = false;
 				}
