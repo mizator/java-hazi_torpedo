@@ -48,14 +48,17 @@ public class TcpClient extends Network {
 		public void run() {
 			System.out.println("Waiting for points...");
 			try {
+				// vegtelen ciklus, amiben varunk uj bejovo uzenetre, ha van, akkor atadjuk a jateklogikanak
 				while (true) {
 					Message received = (Message) in.readObject();
 					jateklogika.msgFromNetwork(received);
 				}
 			} catch (Exception ex) {
+				// ha baj van konzolra kiirjuk TODO: usert ertesiteni
 				System.out.println(ex.getMessage());
 				System.err.println("Server disconnected!");
 			} finally {
+				// ha baj van vegul lekapcsolodunk
 				disconnect();
 			}
 		}
@@ -68,13 +71,17 @@ public class TcpClient extends Network {
 	 * @throws IOException
 	 */
 	void connect(String ip) throws UnknownHostException, IOException {
+		//ha esetleg kapcsoldva voltunk, lekapcsolodunk 
 		disconnect();
-			socket = new Socket(ip, 10007);
+		
+			// letrehozzuk a halozati socket-et es a be-kimeneti stream-ot 
+			socket = new Socket(ip, 10007); 
 
 			out = new ObjectOutputStream(socket.getOutputStream());
 			in = new ObjectInputStream(socket.getInputStream());
 			out.flush();
 
+			// letrehozzuk a bejovo adatokra varakozo szalat, es elunditjuk
 			Thread rec = new Thread(new ReceiverThread());
 			rec.start();
 	}
@@ -84,14 +91,15 @@ public class TcpClient extends Network {
 	 */
 	@Override
 	void send(Message p) {
+		// ha nincs kimeneti stream, nem csinalunk mast, csak visszaterunk
 		if (out == null)
 			return;
 		System.out.println("Sending point: " + p + " to Server");
 		try {
-			out.writeObject(p);
-			out.flush();
+			out.writeObject(p); // elkuldjuk az uzenetet
+			out.flush(); // kenyzeritjuk az elkuldest, ne alljon esetleges pufferekbe
 		} catch (IOException ex) {
-			System.err.println("Send error.");
+			System.err.println("Send error."); // ha hiba van, konzolra kiirjuk, TODO: user ertesitese
 		}
 	}
 
@@ -100,6 +108,7 @@ public class TcpClient extends Network {
 	 */
 	@Override
 	void disconnect() {
+		// lezerjuk a be- es kimeneti stream-eket, es a halozati socket-et 
 		try {
 			if (out != null)
 				out.close();
