@@ -149,12 +149,15 @@ public class JatekLogika {
 	 */
 	public void msgFromNetwork(Message msg)
 	{
+		// csak akkor varunk uzenetet a masik feltol, ha o jon
 		if (!enJovok)
 		{
-			if (msg.tipus == Tipus.Loves)
+			if (msg.tipus == Tipus.Loves) // ha lott rank
 			{
+				// mar mi jovunk
 				toggleEnJovok();
 				
+				// eltalalta-e barmelyik hajot
 				boolean talalt = false;
 				for(Hajo hajo: sajatTabla.getHajok())
 				{
@@ -165,11 +168,12 @@ public class JatekLogika {
 						
 						if (hajo.getSullyedt())
 						{
-							//todo valasz sullyedt
+							//TODO: valasz sullyedt
 						}
 					}
 				}
 				
+				// megvaltoztatjuk a cellat es valaszolunk
 				if (talalt)
 				{
 					sajatTabla.setCella(msg.loc.x, msg.loc.y, CellaTipus.Talat);
@@ -181,11 +185,11 @@ public class JatekLogika {
 					network.send(new Message(Tipus.NemTalalt, msg.loc));
 				}
 			}
-			else if (msg.tipus == Tipus.Talat)
+			else if (msg.tipus == Tipus.Talat) // ha a mi lovesunk talalt, megvaltoztatjuk a cellat
 			{
 				ellenfelTabla.setCella(msg.loc.x, msg.loc.y, CellaTipus.Talat);				
 			}
-			else if (msg.tipus == Tipus.NemTalalt)
+			else if (msg.tipus == Tipus.NemTalalt) // ha a mi lovesunk nem talalt, megvaltoztatjuk a cellat
 			{
 				ellenfelTabla.setCella(msg.loc.x, msg.loc.y, CellaTipus.NemTalalt);				
 			}
@@ -202,13 +206,13 @@ public class JatekLogika {
 	 */
 	public void loves(Point loc)
 	{
-		if (network != null)
+		if (network != null) // ha kapcsoldtunk mar valahova
 		{
-			if (enJovok)
+			if (enJovok) // ha mi jovunk
 			{
-				toggleEnJovok();
-				ellenfelTabla.setCella(loc.x, loc.y, CellaTipus.Loves);
-				network.send(new Message(Tipus.Loves, loc));
+				toggleEnJovok(); // mar nem mi jovunk
+				ellenfelTabla.setCella(loc.x, loc.y, CellaTipus.Loves); // megvaltoztatjuk a cellat
+				network.send(new Message(Tipus.Loves, loc)); // elkuldjuk a lovest
 			}
 			else
 			{
