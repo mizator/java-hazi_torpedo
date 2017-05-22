@@ -15,45 +15,99 @@ import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 import java.awt.event.MouseMotionAdapter;
 
-//public class 
-
+/**
+ * jatekter a jatekhoz, lovesekhez, stb
+ * @see Fokepernyo
+ */
 public class TorpedoPanel2 extends JPanel {
-	private boolean asd = false;
+	/**
+	 * A jatekter merete cellakban
+	 */
 	public static final int palyameret = 10;
+
+	/**
+	 * Milyen messze legyen a szoveg a vonaltol
+	 */
 	private static final int textToLineOffset = 3;
+	
+	/**
+	 * jatekter feliratok vizszintesen
+	 */
 	private static final String[] xcoordToStr = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J"};
+
+	/**
+	 * jatekter feliratok fuggolegesen
+	 */
 	private static final String[] ycoordToStr = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
+	
+	/**
+	 * jatekter hatter szine
+	 */	
 	private static final Color off_white = new Color(0xF8F8F8);
+	
+	/**
+	 * jatekter hatter szine, ha nincs engedelyezve
+	 */	
 	private static final Color off_white2 = new Color(0xE8E8E8);
 
+	/**
+	 * A jatek logikajat megvalosito objektum
+	 */
 	private JatekLogika jateklogika;
 
+	/**
+	 * tavolsag az elso cella kezdeteig (pixelben)
+	 */
 	private int offset;
+	
+	/**
+	 * A cellak merete (pixelben)
+	 */
 	private int meret;
 	
+	/**
+	 * A cellak lehetseges allapotai
+	 */
 	public enum CellaTipus {Ures, Loves, NemTalalt, Talat, TalaltSullyedt};
+	/**
+	 * A cellak allapotai
+	 */
 	private CellaTipus[][] cellak = new CellaTipus[palyameret][palyameret];
 
+	/**
+	 * Az elhelyezett hajok
+	 */
 	private ArrayList<Hajo> hajok = new ArrayList<Hajo>();
 	
+	/**
+	 * Visszaadja az elhelyezett hajokat
+	 */
 	public ArrayList<Hajo> getHajok()
 	{
 		return hajok;
 	}
 
+	/**
+	 * Kiuriti az elhelyezett hajok listajat
+	 */
 	public void clearHajok()
 	{
 		hajok.clear();
 		repaint();
 	}
 	
+	/**
+	 * Uj hajot ad a hajok listajahoz
+	 */
 	public void addHajo(Hajo hajo)
 	{
 		hajok.add(hajo);
 		repaint();
 	}
 
-	
+	/**
+	 * Minden cella allapotat alaphelyzetbe allitja
+	 */
 	public void clearCellak()
 	{
 		for(int i = 0; i < palyameret; i++)
@@ -61,22 +115,34 @@ public class TorpedoPanel2 extends JPanel {
 				cellak[i][j] = CellaTipus.Ures;
 	}
 	
+	/**
+	 * Beallitja egy cella allapotat
+	 */
 	public void setCella(int x, int y, CellaTipus tipus)
 	{
 		cellak[x][y] = tipus;
 		repaint();
 	}
 	
+	/**
+	 * Visszaadja a tavolsagot az elso cella kezdeteig (pixelben)
+	 */
 	public int getOffset()
 	{
 		return offset;
 	}
 	
+	/**
+	 * Visszaadja a cellak meretet (pixelben)
+	 */
 	public int getMeret()
 	{
 		return meret;
 	}		
 		
+	/**
+	 * kiszamolja az offset-et es a meret-et, a objektum szelessege es magassaga alapjan
+	 */
 	private void calcOffsetMeret() {
 		offset = Math.max(getFontMetrics(getFont()).getHeight(), getFontMetrics(getFont()).getMaxAdvance()) + textToLineOffset;
 		meret = (Math.min(getSize().width, getSize().height) - offset - 1 ) / palyameret;
@@ -92,7 +158,6 @@ public class TorpedoPanel2 extends JPanel {
 		addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
                 System.out.println(new String("mouse: ").concat(String.valueOf(e)));
-                asd = true;
                 repaint();
                 
                 if ((e.getX() > offset) && (e.getY() > offset) &&
@@ -111,16 +176,23 @@ public class TorpedoPanel2 extends JPanel {
         });
 	}
 	
+	/**
+	 * kiszamoltatja az offset-et es a meret-et
+	 */
 	public void init() {
-		calcOffsetMeret();
-
-		
+		calcOffsetMeret();	
 	}
 	
+	/**
+	 * Kivant meret (pixel) a GUI-hoz
+	 */	
     public Dimension getPreferredSize() {
         return new Dimension(250,200);
     }
     
+    /**
+     * A jatekter kirajzolasa
+     */
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);       
 

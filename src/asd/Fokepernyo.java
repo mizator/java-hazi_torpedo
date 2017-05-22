@@ -32,13 +32,17 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.CardLayout;
 
+/**
+ * A jatek fokepernyoja, ezen van a ket jatekter
+ */
 public class Fokepernyo {
 
 	private JFrame frmTorped;
 	
+	/**
+	 * A jetek logikajat megvalosito objektum
+	 */
 	private JatekLogika jateklogika = new JatekLogika();
-
-	private ArrayList<HajoPanel> hajok = new ArrayList<HajoPanel>();
 
 	/**
 	 * Launch the application.
@@ -63,23 +67,6 @@ public class Fokepernyo {
 		initialize();
 	}
 	
-	private void addHajo(TorpedoPanel torpedopanel, int cellcount, int locx, int locy, boolean rot, boolean moveable) {
-		HajoPanel hajo = new HajoPanel(torpedopanel, cellcount, moveable);
-		hajo.setRotated(rot);
-		hajo.setLoc(locx*torpedopanel.getMeret()+torpedopanel.getOffset(), locy*torpedopanel.getMeret()+torpedopanel.getOffset());
-		hajok.add(hajo);
-		torpedopanel.add(hajo);
-		hajo.setVisible(true);
-	}
-	
-	private void delHajo(TorpedoPanel torpedopanel, ArrayList<HajoPanel> hajok)
-	{
-		for (HajoPanel hajo : hajok)
-		{
-			torpedopanel.remove(hajo);
-		}
-		hajok.clear();
-	}
 
 	/**
 	 * Initialize the contents of the frame.

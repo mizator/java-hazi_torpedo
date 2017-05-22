@@ -15,31 +15,66 @@ import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 import java.awt.event.MouseMotionAdapter;
 
-//public class 
 
+/**
+ * jatekter a hajok elhelyezesehez
+ * @see TeddLeAHajokat
+ */
 public class TorpedoPanel extends JPanel {
-	private boolean asd = false;
+	/**
+	 * A jatekter merete cellakban
+	 */
 	public static final int palyameret = 10;
+
+	/**
+	 * Milyen messze legyen a szoveg a vonaltol
+	 */
 	private static final int textToLineOffset = 3;
+
+	/**
+	 * jatekter feliratok vizszintesen
+	 */
 	private static final String[] xcoordToStr = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J"};
+
+	/**
+	 * jatekter feliratok fuggolegesen
+	 */
 	private static final String[] ycoordToStr = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
+	
+	/**
+	 * jatekter hatter szine
+	 */	
 	private static final Color off_white = new Color(0xF8F8F8);
 
-	private JatekLogika jateklogika;
-
+	/**
+	 * tavolsag az elso cella kezdeteig (pixelben)
+	 */
 	private int offset;
+	
+	/**
+	 * A cellak merete (pixelben)
+	 */
 	private int meret;
 	
+	/**
+	 * Visszaadja a tavolsagot az elso cella kezdeteig (pixelben)
+	 */
 	public int getOffset()
 	{
 		return offset;
 	}
 	
+	/**
+	 * Visszaadja a cellak meretet (pixelben)
+	 */
 	public int getMeret()
 	{
 		return meret;
 	}		
 		
+	/**
+	 * kiszamolja az offset-et es a meret-et, a objektum szelessege es magassaga alapjan
+	 */
 	private void calcOffsetMeret() {
 		offset = Math.max(getFontMetrics(getFont()).getHeight(), getFontMetrics(getFont()).getMaxAdvance()) + textToLineOffset;
 		meret = (Math.min(getSize().width, getSize().height) - offset - 1 ) / palyameret;
@@ -48,14 +83,12 @@ public class TorpedoPanel extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public TorpedoPanel(JatekLogika jatekLogika) {
+	public TorpedoPanel() {
 		setLayout(null);
-		jateklogika = jatekLogika;
 		
 		addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
                 System.out.println(new String("mouse: ").concat(String.valueOf(e)));
-                asd = true;
                 repaint();
                 
                 if ((e.getX() > offset) && (e.getY() > offset) &&
@@ -64,31 +97,32 @@ public class TorpedoPanel extends JPanel {
 	                int x = (e.getX()-offset)/meret;
 	                int y = (e.getY()-offset)/meret;
 	                System.out.println(new String("cella: ").concat(xcoordToStr[x]).concat(ycoordToStr[y]));
-	                
-	                if (jatekLogika != null)
-	                {
-	                	jatekLogika.loves(new Point(x, y));
-	                }
+
                 }
             }
         });
 	}
 	
+	/**
+	 * kiszamoltatja az offset-et es a meret-et
+	 */
 	public void init() {
-		calcOffsetMeret();
-
-		
+		calcOffsetMeret();		
 	}
 	
+	/**
+	 * Kivant meret (pixel) a GUI-hoz
+	 */	
     public Dimension getPreferredSize() {
         return new Dimension(250,200);
     }
     
+    /**
+     * A jatekter kirajzolasa
+     */
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);       
-		if (asd) {
-			//g.drawString("This is my custom Panel!",10,20);
-		}
+
 		
 		calcOffsetMeret();
 		
