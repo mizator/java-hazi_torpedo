@@ -57,6 +57,8 @@ public class TcpClient extends Network {
 				// ha baj van konzolra kiirjuk TODO: usert ertesiteni
 				System.out.println(ex.getMessage());
 				System.err.println("Server disconnected!");
+				// falhasznalo ertesitese
+				jateklogika.netError("Server disconnected!");
 			} finally {
 				// ha baj van vegul lekapcsolodunk
 				disconnect();
@@ -100,6 +102,9 @@ public class TcpClient extends Network {
 			out.flush(); // kenyzeritjuk az elkuldest, ne alljon esetleges pufferekbe
 		} catch (IOException ex) {
 			System.err.println("Send error."); // ha hiba van, konzolra kiirjuk, TODO: user ertesitese
+			// falhasznalo ertesitese
+			jateklogika.netError("Send error.");
+
 		}
 	}
 

@@ -59,6 +59,9 @@ public class TcpServer extends Network {
 				System.out.println("Client connected.");
 			} catch (IOException e) {
 				System.err.println("Accept failed.");
+				// falhasznalo ertesitese
+				jateklogika.netError("Accept failed.");
+
 				disconnect();
 				return;
 			}
@@ -70,6 +73,9 @@ public class TcpServer extends Network {
 				out.flush();
 			} catch (IOException e) {
 				System.err.println("Error while getting streams.");
+				// falhasznalo ertesitese
+				jateklogika.netError("Error while getting streams.");
+
 				disconnect();
 				return;
 			}
@@ -83,6 +89,9 @@ public class TcpServer extends Network {
 			} catch (Exception ex) {
 				System.out.println(ex.getMessage());
 				System.err.println("Client disconnected!");
+				// falhasznalo ertesitese
+				jateklogika.netError("Client disconnected!");
+
 			} finally {
 				disconnect();
 			}
@@ -119,6 +128,9 @@ public class TcpServer extends Network {
 			out.flush(); // kenyzeritjuk az elkuldest, ne alljon esetleges pufferekbe
 		} catch (IOException ex) {
 			System.err.println("Send error.");
+			// falhasznalo ertesitese
+			jateklogika.netError(ex.getMessage());
+
 		}
 	}
 

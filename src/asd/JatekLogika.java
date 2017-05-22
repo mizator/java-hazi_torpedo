@@ -221,5 +221,24 @@ public class JatekLogika {
 		}
 	}
 	
+	/**
+	 * Kapcsolat hiba eseten, felugro ablakot mutat a felhasznalonak
+	 * @param msg megjelenitendo uzenet
+	 */
+	public void netError(String msg)
+	{
+		// hibauznet megjelenitese
+		JOptionPane.showMessageDialog(null, msg, "Kapcsolodas sikertelen", JOptionPane.ERROR_MESSAGE);
+		
+		// kapcsolat bontasa
+		network.disconnect();
+		network = null;
+		
+		// jatekmezok tiltasa
+		sajatTabla.setEnabled(false);
+		ellenfelTabla.setEnabled(false);
+
+	}
+	
 
 }
