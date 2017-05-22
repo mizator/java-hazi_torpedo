@@ -11,7 +11,7 @@ public class Message implements Serializable {
 	/**
 	 * Az uzenetnek ilyen tipusai lehetnek 
 	 */
-	public enum Tipus {Loves, NemTalalt, Talat, TalaltSullyedt};
+	public enum Tipus {Loves, NemTalalt, Talat, TalaltSullyedt, Nyertel};
 	/**
 	 * Az uzenet tipusa
 	 */

@@ -89,7 +89,7 @@ public class TeddLeAHajokat extends JDialog {
 				}
 			}
 		}
-		return ret;
+		return false;//ret;
 	}
 	
 	/**

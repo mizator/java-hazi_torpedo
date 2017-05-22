@@ -28,7 +28,7 @@ public class JatekLogika {
 	 * Az itteni jatekose-e a kovetkezo lepes. A szerver kezd.
 	 */
 	private boolean enJovok;
-	
+		
 	/**
 	 * Az itteni jatekos hajoit abrazolo jatekter.
 	 */
@@ -169,22 +169,49 @@ public class JatekLogika {
 						
 						if (hajo.getSullyedt())
 						{
-							//TODO: valasz sullyedt
+							sajatTabla.setCella(msg.loc.x, msg.loc.y, CellaTipus.Talat); // sajat cellan jeloljuk, hogy talalt
+							for(int i = 0; i < hajo.cellsize; i++)
+							{
+								if (hajo.isRotated)
+								{
+									// elkuldjuk a hajo osszes koordinatajara, hogy TalaltSullyedt, vizszintes a hajo -> .x+i
+									network.send(new Message(Tipus.TalaltSullyedt, new Point(hajo.pos.x + i, hajo.pos.y)));
+								}
+								else
+								{
+									// elkuldjuk a hajo osszes koordinatajara, hogy TalaltSullyedt, fuggoleges a hajo -> .y+i
+									network.send(new Message(Tipus.TalaltSullyedt, new Point(hajo.pos.x, hajo.pos.y + i)));
+								}
+							}
+						}
+						else
+						{
+							sajatTabla.setCella(msg.loc.x, msg.loc.y, CellaTipus.Talat); // sajat cellan jeloljuk, hogy talalt
+							network.send(new Message(Tipus.Talat, msg.loc)); // elkuljuk, hogy talalt
 						}
 					}
 				}
 				
 				// megvaltoztatjuk a cellat es valaszolunk
-				if (talalt)
-				{
-					sajatTabla.setCella(msg.loc.x, msg.loc.y, CellaTipus.Talat);
-					network.send(new Message(Tipus.Talat, msg.loc));
-				}
-				else
+				if (!talalt)
 				{
 					sajatTabla.setCella(msg.loc.x, msg.loc.y, CellaTipus.NemTalalt);
 					network.send(new Message(Tipus.NemTalalt, msg.loc));
 				}
+				
+				// minden hajo sullyedt?
+				boolean nyertel = true;
+				for(Hajo hajo: sajatTabla.getHajok())
+				{
+					nyertel = nyertel && hajo.getSullyedt();
+				}
+				if (nyertel) // ha osszes hajo elsullyedt
+				{
+					network.send(new Message(Tipus.Nyertel, new Point(0, 0))); // elkuldjuk a masiknak, hogy nyert
+					JOptionPane.showMessageDialog(null, "Vesztettel", "Vesztettel", JOptionPane.INFORMATION_MESSAGE); // ertesitjuk a felhasznalot, hogy vesztett
+					jatekvege();
+				}
+
 			}
 			else if (msg.tipus == Tipus.Talat) // ha a mi lovesunk talalt, megvaltoztatjuk a cellat
 			{
@@ -193,6 +220,15 @@ public class JatekLogika {
 			else if (msg.tipus == Tipus.NemTalalt) // ha a mi lovesunk nem talalt, megvaltoztatjuk a cellat
 			{
 				ellenfelTabla.setCella(msg.loc.x, msg.loc.y, CellaTipus.NemTalalt);				
+			}
+			else if (msg.tipus == Tipus.TalaltSullyedt) // ha talalt es sullyedt, megvaltoztatjuk a cellat
+			{
+				ellenfelTabla.setCella(msg.loc.x, msg.loc.y, CellaTipus.TalaltSullyedt);				
+			}
+			else if (msg.tipus == Tipus.Nyertel) // ha nyertunk
+			{
+				JOptionPane.showMessageDialog(null, "Nyertel", "Nyertel", JOptionPane.INFORMATION_MESSAGE); // ertesitjuk a felhasznalot, hogy nyert
+				jatekvege();
 			}
 		}
 		else
@@ -230,15 +266,7 @@ public class JatekLogika {
 	{
 		// hibauznet megjelenitese
 		JOptionPane.showMessageDialog(null, msg, "Kapcsolodas sikertelen", JOptionPane.ERROR_MESSAGE);
-		
-		// kapcsolat bontasa
-		network.disconnect();
-		network = null;
-		
-		// jatekmezok tiltasa
-		sajatTabla.setEnabled(false);
-		ellenfelTabla.setEnabled(false);
-
+		jatekvege();
 	}
 	
 	/**
@@ -249,5 +277,19 @@ public class JatekLogika {
 		ellenfelTabla.setEnabled(enJovok); // ellenfel tablajat engedelyezzunk	
 	}
 	
+	/**
+	 *  Lezarja a jatekot, jatekmezoket tiltja, halozatrol lakapcsolodik
+	 */
+	private void jatekvege()
+	{
+		// jatekmezok tiltasa
+		sajatTabla.setEnabled(false);
+		ellenfelTabla.setEnabled(false);
+		
+		// kapcsolat bontasa
+		if (network != null)
+			network.disconnect();
+		network = null;
+	}
 
 }

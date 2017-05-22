@@ -201,6 +201,11 @@ public class TorpedoPanel2 extends JPanel {
 					g.setColor(Color.blue);
 					g.fillArc(x+3, y+3, meret-6, meret-6, 0, 360);
 				}				
+				else if (cellak[i][j] == CellaTipus.TalaltSullyedt)
+				{
+					g.setColor(Color.black);
+					g.fillRect(x+5, y+5, meret-10, meret-10);
+				}
 			}
 		}
 	}  
