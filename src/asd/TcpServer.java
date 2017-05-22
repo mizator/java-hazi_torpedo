@@ -79,6 +79,9 @@ public class TcpServer extends Network {
 				disconnect();
 				return;
 			}
+			
+			// jelezzuk, hogy a kliens kapcsolodott
+			jateklogika.clientConnected();
 
 			try {
 				// vegtelen ciklus, amiben varunk uj bejovo uzenetre, ha van, akkor atadjuk a jateklogikanak

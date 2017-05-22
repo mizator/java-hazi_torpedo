@@ -73,6 +73,9 @@ public class JatekLogika {
 					server.listen();
 					network = server;
 					enJovok = true;
+					sajatTabla.setEnabled(false); // sajat tablat ne piszkalja
+					ellenfelTabla.setEnabled(false); // ellenfel tablajat tiltjuk, majd ha akliens csatlakozott engedelyezzuk
+
 				}
 			    catch (IOException e)
 				{
@@ -90,6 +93,8 @@ public class JatekLogika {
 					client.connect(connecTypeDialog.getConnectAddr());
 					network = client;
 					enJovok = false;
+					sajatTabla.setEnabled(false); // sajat tablat ne piszkalja
+					ellenfelTabla.setEnabled(enJovok); // ellenfel tablajat engedelyezzunk ha mi jovunk
 				}
 			    catch (IOException e)
 				{
@@ -104,12 +109,8 @@ public class JatekLogika {
 			{
 				// feldobjuk a hejokat elhejezo ablakot
 				TeddLeAHajokat teddleahajokat = new TeddLeAHajokat();
-				if (teddleahajokat.exec())
+				if (teddleahajokat.exec()) // ha OK-ot nyomott
 				{
-					// ha OK-ot nyomott
-					sajatTabla.setEnabled(false); // sajat tablat ne piszkalja
-					ellenfelTabla.setEnabled(enJovok); // ellenfel tablajat engedelyezzunk ha mi jovunk
-
 					// tablan (elozo jatekbol) levo hajokat es cellak tartalmat toroljuk
 					sajatTabla.clearHajok();
 					sajatTabla.clearCellak();
@@ -238,6 +239,14 @@ public class JatekLogika {
 		sajatTabla.setEnabled(false);
 		ellenfelTabla.setEnabled(false);
 
+	}
+	
+	/**
+	 * TCP szerver hivja meg, ha kapcsolodott a kliens
+	 */
+	public void clientConnected()
+	{
+		ellenfelTabla.setEnabled(enJovok); // ellenfel tablajat engedelyezzunk	
 	}
 	
 
